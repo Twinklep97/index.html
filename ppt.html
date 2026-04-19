@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Feedback Form</title>
+
+<style>
+:root {
+    --bg: linear-gradient(135deg, #5f72ff, #9b5de5, #00bbf9);
+    --card: rgba(255,255,255,0.15);
+    --text: #fff;
+    --accent: #00bbf9;
+}
+
+body.light {
+    --bg: linear-gradient(135deg, #e0e7ff, #f3e8ff, #dbeafe);
+    --card: rgba(255,255,255,0.85);
+    --text: #222;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.container {
+    width: 90%;
+    max-width: 750px;
+    background: var(--card);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 25px;
+    color: var(--text);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+.progress {
+    height: 10px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 33%;
+    background: var(--accent);
+    transition: 0.4s;
+}
+
+.step { display: none; }
+.step.active { display: block; }
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+.btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* Stars */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.star-rating input { display: none; }
+
+.star-rating label {
+    font-size: 28px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: gold;
+}
+
+/* Toggle */
+.toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.switch {
+    position: relative;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input { display: none; }
+
+.slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.switch input:checked + .slider {
+    background: #00bbf9;
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* Thank you screen */
+.thankyou {
+    text-align: center;
+    display: none;
+    padding: 40px;
+}
+
+.thankyou h1 {
+    font-size: 32px;
+}
+
+.thankyou p {
+    font-size: 18px;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="toggle">
+        <label class="switch">
+            <input type="checkbox" onchange="toggleTheme()">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <h2>✨ Student Feedback Form</h2>
+
+    <div class="progress">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <form id="form">
+
+        <!-- STEP 1 -->
+        <div class="step active">
+            <h3>Personal Info</h3>
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="text" placeholder="Student ID" required>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step">
+            <h3>Course Details</h3>
+            <input type="text" placeholder="Course Name" required>
+            <input type="text" placeholder="Instructor Name" required>
+
+            <label>Difficulty</label>
+            <select required>
+                <option>Easy</option>
+                <option>Moderate</option>
+                <option>Hard</option>
+            </select>
+
+            <label>Rating</label>
+            <div class="star-rating">
+                <input type="radio" id="s5" name="rate"><label for="s5">★</label>
+                <input type="radio" id="s4" name="rate"><label for="s4">★</label>
+                <input type="radio" id="s3" name="rate"><label for="s3">★</label>
+                <input type="radio" id="s2" name="rate"><label for="s2">★</label>
+                <input type="radio" id="s1" name="rate"><label for="s1">★</label>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step">
+            <h3>Feedback</h3>
+            <textarea placeholder="What did you like?" required></textarea>
+            <textarea placeholder="Suggestions for improvement" required></textarea>
+            <textarea placeholder="Additional comments" required></textarea>
+        </div>
+
+        <!-- Navigation -->
+        <div class="btn">
+            <button type="button" onclick="prev()">Back</button>
+            <button type="button" onclick="next()">Next</button>
+        </div>
+
+    </form>
+
+    <!-- THANK YOU SCREEN -->
+    <div class="thankyou" id="thankyou">
+        <h1>🎉 Thank You!</h1>
+        <p>Your feedback has been successfully submitted.</p>
+        <p>We truly appreciate your time and effort 🙏</p>
+    </div>
+
+</div>
+
+<script>
+let step = 0;
+const steps = document.querySelectorAll(".step");
+const bar = document.getElementById("bar");
+const form = document.getElementById("form");
+const thankyou = document.getElementById("thankyou");
+
+function showStep() {
+    steps.forEach((s,i) => s.classList.toggle("active", i === step));
+    bar.style.width = ((step + 1) / steps.length * 100) + "%";
+}
+
+function next() {
+    if (step < steps.length - 1) {
+        step++;
+        showStep();
+    } else {
+        form.style.display = "none";
+        document.querySelector(".progress").style.display = "none";
+        document.querySelector(".btn").style.display = "none";
+        document.querySelector("h2").style.display = "none";
+        thankyou.style.display = "block";
+    }
+}
+
+function prev() {
+    if (step > 0) step--;
+    showStep();
+}
+
+/* Theme toggle */
+function toggleTheme() {
+    document.body.classList.toggle("light");
+}
+</script>
+
+</body>
+</html>
