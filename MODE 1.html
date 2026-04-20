@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Feedback Form</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="toggle">
+        <label class="switch">
+            <input type="checkbox" onchange="toggleTheme()">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <h2>✨ Student Feedback Form</h2>
+
+    <div class="progress">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <form id="form">
+
+        <!-- STEP 1 -->
+        <div class="step active">
+            <h3>Personal Info</h3>
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="text" placeholder="Student ID" required>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step">
+            <h3>Course Details</h3>
+            <input type="text" placeholder="Course Name" required>
+            <input type="text" placeholder="Instructor Name" required>
+
+            <label>Difficulty</label>
+            <select required>
+                <option>Easy</option>
+                <option>Moderate</option>
+                <option>Hard</option>
+            </select>
+
+            <label>Rating</label>
+            <div class="star-rating">
+                <input type="radio" id="s5" name="rate"><label for="s5">★</label>
+                <input type="radio" id="s4" name="rate"><label for="s4">★</label>
+                <input type="radio" id="s3" name="rate"><label for="s3">★</label>
+                <input type="radio" id="s2" name="rate"><label for="s2">★</label>
+                <input type="radio" id="s1" name="rate"><label for="s1">★</label>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step">
+            <h3>Feedback</h3>
+            <textarea placeholder="What did you like?" required></textarea>
+            <textarea placeholder="Suggestions for improvement" required></textarea>
+            <textarea placeholder="Additional comments" required></textarea>
+        </div>
+
+        <!-- Navigation -->
+        <div class="btn">
+            <button type="button" onclick="prev()">Back</button>
+            <button type="button" onclick="next()">Next</button>
+        </div>
+
+    </form>
+
+    <!-- THANK YOU SCREEN -->
+    <div class="thankyou" id="thankyou">
+        <h1>🎉 Thank You!</h1>
+        <p>Your feedback has been successfully submitted.</p>
+        <p>We truly appreciate your time and effort 🙏</p>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
