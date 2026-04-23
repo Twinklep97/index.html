@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML5 API Demo</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(120deg, #89f7fe, #66a6ff);
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+
+    h1 {
+        text-align: center;
+        color: #fff;
+    }
+
+    .container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 300px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        background: #66a6ff;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #4d8bf5;
+    }
+
+    /* Drag & Drop */
+    #dragBox {
+        width: 80px;
+        height: 80px;
+        background: #ff6b6b;
+        margin: auto;
+        cursor: grab;
+        border-radius: 10px;
+    }
+
+    #dropZone {
+        margin-top: 20px;
+        padding: 30px;
+        border: 2px dashed #aaa;
+        border-radius: 10px;
+        min-height: 100px;
+    }
+
+    input {
+        padding: 8px;
+        width: 80%;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<h1>🚀 HTML5 APIs Demo</h1>
+
+<div class="container">
+
+    <!-- Drag & Drop -->
+    <div class="card">
+        <h3>Drag & Drop</h3>
+        <div id="dragBox" draggable="true"></div>
+        <div id="dropZone">Drop here</div>
+    </div>
+
+    <!-- Geolocation -->
+    <div class="card">
+        <h3>Geolocation</h3>
+        <button onclick="getLocation()">Get Location</button>
+        <p id="location"></p>
+    </div>
+
+    <!-- Web Storage -->
+    <div class="card">
+        <h3>Web Storage</h3>
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <button onclick="saveData()">Save</button>
+        <button onclick="loadData()">Load</button>
+        <p id="output"></p>
+    </div>
+
+</div>
+
+<script>
+/* Drag & Drop */
+const dragBox = document.getElementById("dragBox");
+const dropZone = document.getElementById("dropZone");
+
+dragBox.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text", "dragBox");
+});
+
+dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+
+dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const data = e.dataTransfer.getData("text");
+    dropZone.appendChild(document.getElementById(data));
+});
+
+/* Geolocation */
+function getLocation() {
+    const output = document.getElementById("location");
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                output.innerHTML =
+                    "Latitude: " + position.coords.latitude + "<br>" +
+                    "Longitude: " + position.coords.longitude;
+            },
+            () => {
+                output.innerHTML = "Location access denied.";
+            }
+        );
+    } else {
+        output.innerHTML = "Geolocation not supported.";
+    }
+}
+
+/* Web Storage */
+function saveData() {
+    const name = document.getElementById("nameInput").value;
+    localStorage.setItem("username", name);
+    alert("Saved!");
+}
+
+function loadData() {
+    const name = localStorage.getItem("username");
+    document.getElementById("output").innerText = name ? "Hello " + name : "No data found";
+}
+</script>
+
+</body>
+</html>
